@@ -12,16 +12,16 @@ const Apply = () => {
   const steps = ["Search", "Wait Approval", "Access Scholarship"];
 
   return (
-    <div className="flex flex-row  text-darkblue   ">
+    <div className="flex flex-row  text-darkblue  bg-gray ">
       <div className="">
         <Menu />
       </div>
 
-      <div className="flex flex-col w-[100%] ">
+      <div className="flex flex-col  w-full items-center ">
         <div>
           <HeadSec />
         </div>
-        <div className="flex flex-row bg-white mx-5 p-10 items-center justify-center gap-8  ">
+        <div className="flex flex-row bg-white mx-5 p-10 items-center justify-center gap-8  rounded-2xl ">
           <div className="flex flex-col mt-10">
             <div className="flex flex-row">
               <Box sx={{ width: "100%" }}>

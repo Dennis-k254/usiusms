@@ -7,7 +7,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 const HeadSec = () => {
   return (
     <div className="flex flex-col justify-center items-center w-[100%] my-10  gap-20">
-      <div className=" flex flex-row justify-between w-[100%]">
+      <div className=" flex flex-row justify-between w-[100%] gap-40">
         <h1 className="text-darkblue font-bold text-[20px]">
           Welcome, Student
         </h1>

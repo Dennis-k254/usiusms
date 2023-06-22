@@ -5,19 +5,34 @@ import EventRepeatIcon from "@mui/icons-material/EventRepeat";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { logo } from "../assets";
+import { Link } from "react-router-dom";
 
 const Menu = () => {
   return (
-    <div className="bg-darkblue rounded-r-2xl justify-center flex flex-col text-white w-[200px] items-center h-full">
-      <ul className="flex flex-col gap-2 cursor-pointer">
-        <li className="flex flex-row gap-2">
-          <HomeIcon />
-          Dashboard
-        </li>
-        <li className="flex flex-row gap-2">
-          <ApprovalIcon />
-          Apply Schorlaship
-        </li>
+    <div className="bg-darkblue rounded-r-2xl flex flex-col text-white w-[200px] items-center gap-32 h-[130vh] ">
+      <img
+        src={logo}
+        alt="schorlaship_logo"
+        className="bg-gray rounded-full py-2 px-3 mt-28"
+      />
+      <ul className="flex flex-col gap-2 cursor-pointer text-[14px]">
+        <Link to="/">
+          {" "}
+          <li className="flex flex-row gap-2">
+            <HomeIcon />
+            Dashboard
+          </li>
+        </Link>
+
+        <Link to="/apply">
+          {" "}
+          <li className="flex flex-row gap-2">
+            <ApprovalIcon />
+            Apply Schorlaship
+          </li>
+        </Link>
+
         <li className="flex flex-row gap-2">
           <EventRepeatIcon />
           Renew Schorlaship
@@ -30,10 +45,13 @@ const Menu = () => {
           <PersonIcon />
           Profile
         </li>
-        <li className="flex flex-row gap-2">
-          <LogoutIcon />
-          Logout
-        </li>
+        <Link to="/login">
+          {" "}
+          <li className="flex flex-row gap-2">
+            <LogoutIcon />
+            Login
+          </li>
+        </Link>
       </ul>
     </div>
   );

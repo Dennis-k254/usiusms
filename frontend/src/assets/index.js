@@ -1,9 +1,7 @@
-<<<<<<< HEAD
 import login from "../assets/login.png";
+import logo from "./logo.png";
+import image from "./images.png";
+import google from "./google.png";
+import welcome from "./welcome.png";
 
-export {login};
-=======
-import image from "./images.jpeg";
-
-export { image };
->>>>>>> aaa2b593eafe6a337793cc32dbb7d2d72e4a6b71
+export { image, login, logo, google, welcome };

@@ -12,6 +12,7 @@ module.exports = {
         brown: "#1E1E1E",
         green: "#006633",
         orange: "#FE8B00",
+        txtgray: "#797979",
       },
       animation: {
         slideup: "slideup 1s ease-in-out",
