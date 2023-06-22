@@ -8,7 +8,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 
 const Menu = () => {
   return (
-    <div className=" bg-darkblue h-[100%] rounded-r-2xl justify-center flex flex-col text-white w-[200px] items-center ">
+    <div className="bg-darkblue rounded-r-2xl justify-center flex flex-col text-white w-[200px] items-center h-full">
       <ul className="flex flex-col gap-2 cursor-pointer">
         <li className="flex flex-row gap-2">
           <HomeIcon />

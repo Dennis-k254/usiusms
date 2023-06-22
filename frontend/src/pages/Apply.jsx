@@ -6,13 +6,14 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Menu from "../components/Menu";
+import { image } from "../assets";
 
 const Apply = () => {
   const steps = ["Search", "Wait Approval", "Access Scholarship"];
 
   return (
-    <div className="flex flex-row h-[100%] text-darkblue">
-      <div className="h-[100%]">
+    <div className="flex flex-row  text-darkblue   ">
+      <div className="">
         <Menu />
       </div>
 
@@ -20,7 +21,7 @@ const Apply = () => {
         <div>
           <HeadSec />
         </div>
-        <div className="flex flex-row bg-white mx-5 p-10  ">
+        <div className="flex flex-row bg-white mx-5 p-10 items-center justify-center gap-8  ">
           <div className="flex flex-col mt-10">
             <div className="flex flex-row">
               <Box sx={{ width: "100%" }}>
@@ -135,9 +136,15 @@ const Apply = () => {
               </div>
             </div>
           </div>
-          <div>
-            <img />
-            image
+          <div className="bg-gray h-[100%] rounded-lg text-darkblue gap-20 flex flex-col">
+            <div className="pt-20">
+              <h1 className="text-[50px] font-bold">12 </h1>
+              <p className="font-semibold text-[20px] ">
+                Schorlaships match your criteria
+              </p>
+            </div>
+
+            <img src={image} className="p-2  flex  h-[50%] rounded-3xl" />
           </div>
         </div>
       </div>
