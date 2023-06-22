@@ -6,7 +6,7 @@ import Apply from "./pages/Apply";
 
 function App() {
   return (
-    <div className="App flex-1 overflow-x-hidden hide-scrollbar  flex-col-reverse bg-gray h-[100vh] ">
+    <div className="App flex-1 overflow-x-hidden hide-scrollbar  flex-col-reverse ">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/apply" element={<Apply />} />
