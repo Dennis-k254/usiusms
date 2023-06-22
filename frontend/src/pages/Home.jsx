@@ -1,10 +1,10 @@
-import React from "react";
 import Menu from "../components/Menu";
 import ApprovalIcon from "@mui/icons-material/Approval";
 import EventRepeatIcon from "@mui/icons-material/EventRepeat";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import PersonIcon from "@mui/icons-material/Person";
 import HeadSec from "../components/HeadSec";
+
 
 function Home() {
   return (
@@ -33,6 +33,7 @@ function Home() {
             <div className="bg-white rounded-lg w-[300px] h-[300px] justify-center items-center flex flex-col text-darkblue shadow-lg opacity-70 hover:opacity-95 ">
               <h1 className="font-bold text-[20px]">Profile</h1>
               <PersonIcon className="text-[200px]" fontSize="" />
+             
             </div>
           </div>
         </div>

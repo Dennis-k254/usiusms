@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React from "react";
 import HeadSec from "../components/HeadSec";
 import Box from "@mui/material/Box";
@@ -23,7 +24,7 @@ const Apply = () => {
           <div className="flex flex-col mt-10">
             <div className="flex flex-row">
               <Box sx={{ width: "100%" }}>
-                <Stepper activeStep={1} alternativeLabel>
+                <Stepper activeStep={3} alternativeLabel>
                   {steps.map((label) => (
                     <Step key={label}>
                       <StepLabel>{label}</StepLabel>
@@ -78,11 +79,11 @@ const Apply = () => {
                 </h2>
                 <form className="gap-2 flex w-full  ">
                   <input type="radio" value="male" />
-                  <label for="html">Male</label>
+                  <label htmlFor="html">Male</label>
                   <input type="radio" value="female" />
-                  <label for="html">Female</label>
+                  <label htmlFor="html">Female</label>
                   <input type="radio" value="other" />
-                  <label for="html">Other</label>
+                  <label htmlFor="html">Other</label>
                 </form>
               </div>
 
@@ -105,11 +106,11 @@ const Apply = () => {
                 <h2 className="flex items-start  w-full font-semibold">Type</h2>
                 <form className="gap-2 flex w-full font-semibold  ">
                   <input type="radio" value="male" />
-                  <label for="html">Renewable Award</label>
+                  <label htmlFor="html">Renewable Award</label>
                   <input type="radio" value="female" />
-                  <label for="html">One time Award</label>
+                  <label htmlFor="html">One time Award</label>
                   <input type="radio" value="other" />
-                  <label for="html">Any</label>
+                  <label htmlFor="html">Any</label>
                 </form>
               </div>
 
