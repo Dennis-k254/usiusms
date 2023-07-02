@@ -4,8 +4,10 @@ import EventRepeatIcon from "@mui/icons-material/EventRepeat";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import PersonIcon from "@mui/icons-material/Person";
 import HeadSec from "../components/HeadSec";
+import { useDispatch, useSelector } from "react-redux";
 
 function Home() {
+  const auth = useSelector((state) => state.auth);
   return (
     <div className="flex flex-row  h-[100vh]">
       <div className="">

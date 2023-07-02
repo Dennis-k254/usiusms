@@ -7,8 +7,20 @@ import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { logo } from "../assets";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../features/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const Menu = () => {
+  const auth = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    navigate("/login");
+  };
+
   return (
     <div className="bg-darkblue rounded-r-2xl flex flex-col text-white w-[200px] items-center gap-32 h-[130vh] ">
       <img
@@ -47,9 +59,9 @@ const Menu = () => {
         </li>
         <Link to="/login">
           {" "}
-          <li className="flex flex-row gap-2">
+          <li className="flex flex-row gap-2" onClick={handleLogout}>
             <LogoutIcon />
-            Login
+            {auth._id ? <p>Logout</p> : <p>Login</p>}
           </li>
         </Link>
       </ul>
