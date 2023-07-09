@@ -3,9 +3,30 @@ import { useDispatch, useSelector } from "react-redux";
 import Menu from "../components/Menu";
 import HeadSec from "../components/HeadSec";
 import ScholCard from "../components/ScholCard";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import {
+  createScholarship,
+  getScholarships,
+} from "../features/scholarshipSlice";
 
 const ScholCollection = () => {
   const scholarships = useSelector((state) => state.schol.scholarships);
+
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [newScholarship, setNewScholarship] = useState({
+    scholarshipName: "",
+    category: "",
+    applicationDeadline: "",
+  });
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+    setNewScholarship({
+      ...newScholarship,
+      applicationDeadline: date,
+    });
+  };
 
   const dispatch = useDispatch();
 
@@ -14,23 +35,64 @@ const ScholCollection = () => {
   const [external, setExternal] = useState(false);
   const [sports, setSports] = useState(false);
   const [diversity, setDiversity] = useState(false);
+  const [full, setFull] = useState(false);
+  const [partial, setPartial] = useState(false);
+  const [physicall, setPhysicall] = useState(false);
+  const [underprivillage, setUnderprivillage] = useState(false);
+  const [educational, setEducational] = useState(false);
+  const [masterCard, setMasterCard] = useState(false);
 
   const handleAddButtonClick = () => {
     setShowForm(true);
   };
 
-  const handleFormSubmit = (formData) => {
+  const handleFormSubmit = () => {
     // Handle form submission logic here
-    console.log(formData);
+    dispatch(createScholarship(newScholarship))
+      .then(() => {
+        setShowForm(false);
+        setNewScholarship({
+          scholarshipName: "",
+          category: "",
+          applicationDeadline: "",
+        });
+        setSelectedDate(null);
+        dispatch(getScholarships());
+      })
+      .catch((error) => {
+        console.log("Error creating scholarship:", error);
+      });
+    console.log(newScholarship);
     setShowForm(false);
   };
 
   const handleSelectChange = (event) => {
     const selectedValue = event.target.value;
-    setInstitutional(selectedValue === "institutional");
-    setExternal(selectedValue === "external");
-    setSports(selectedValue === "sports");
-    setDiversity(selectedValue === "diversity");
+
+    setInstitutional(selectedValue === "Institutional");
+    setExternal(selectedValue === "External");
+    setSports(selectedValue === "Sports");
+    setDiversity(selectedValue === "Diversity");
+    setNewScholarship({
+      ...newScholarship,
+      scholarshipName: selectedValue,
+    });
+  };
+
+  const handleCategoryChange = (event) => {
+    const categoryValue = event.target.value;
+
+    setFull(categoryValue === "Full");
+    setPartial(categoryValue === "Partial");
+    setEducational(categoryValue === "Educational Trustfund");
+    setUnderprivillage(categoryValue === "Underprivillage Communities");
+    setMasterCard(categoryValue === "Mater Card");
+    setPhysicall(categoryValue === "Physically Challenged");
+
+    setNewScholarship({
+      ...newScholarship,
+      category: categoryValue,
+    });
   };
 
   return (
@@ -57,40 +119,69 @@ const ScholCollection = () => {
 
           <div className="flex flex-row gap-20 flex-wrap items-center justify-center ">
             {showForm ? (
-              <div className="flex flex-col justify-center">
-                <div>
+              <div className="flex flex-col justify-center ">
+                <div className="gap-2 flex flex-col ">
                   <h1>Scholarship Name</h1>
-                  <select onChange={handleSelectChange}>
+                  <select
+                    onChange={handleSelectChange}
+                    className="flex flex-col border-2"
+                  >
                     <option>Select</option>
-                    <option value="institutional">
+                    <option value="Institutional">
                       Institutional Scholarship
                     </option>
-                    <option value="external">External Scholarship</option>
-                    <option value="sports">Sports Scholarship</option>
-                    <option value="diversity">Diversity Scholarship</option>
+                    <option value="External">External Scholarship</option>
+                    <option value="Sports">Sports Scholarship</option>
+                    <option value="Diversity">Diversity Scholarship</option>
                   </select>
                 </div>
-                <div>
+                <div className="gap-2 flex flex-col">
                   <h1>Category</h1>
-                  <select>
+                  <select
+                    className="flex flex-col border-2"
+                    onChange={handleCategoryChange}
+                  >
                     <option>Select</option>
                     {institutional ? (
                       <>
-                        <option>Full</option> <option>Partial</option>{" "}
+                        <option value="Full">Full</option>
+                        <option value="Partial">Partial</option>{" "}
                       </>
                     ) : external ? (
                       <>
-                        <option>MaterCard Foundation</option>{" "}
-                        <option>Educational Trustfund</option>{" "}
+                        <option value="Matercard Foundation">
+                          MaterCard Foundation
+                        </option>
+                        <option value="Educational Trustfund">
+                          Educational Trustfund
+                        </option>{" "}
                       </>
                     ) : diversity ? (
                       <>
                         {" "}
-                        <option>Underprivillaged Communities</option>{" "}
-                        <option>Physically Challenged</option>{" "}
+                        <option value="Underprivillaged Communities">
+                          Underprivillaged Communities
+                        </option>{" "}
+                        <option value="Physically Challenged">
+                          Physically Challenged
+                        </option>{" "}
                       </>
                     ) : null}
                   </select>
+                </div>
+                <div className="gap-2 flex flex-col w-full">
+                  <h1>Application Deadline</h1>
+                  <DatePicker
+                    selected={selectedDate}
+                    onChange={handleDateChange}
+                    dateFormat="dd/MM/yyyy"
+                    placeholderText={
+                      selectedDate
+                        ? selectedDate.toLocaleDateString()
+                        : "Select Date"
+                    }
+                    className=" flex flex-col border-2 w-full"
+                  />
                 </div>
 
                 <button
@@ -101,8 +192,8 @@ const ScholCollection = () => {
                 </button>
               </div>
             ) : (
-              <div className="flex flex-row gap-20 flex-wrap items-center justify-center">
-                <div className="gap-10 flex flex-row">
+              <div className="flex flex-row gap-20 flex-wrap items-center justify-center ">
+                <div className="gap-10 flex flex-row flex-wrap items-center justify-center">
                   {scholarships.map((scholarship) => (
                     <div key={scholarship.id}>
                       <ScholCard scholarship={scholarship} />

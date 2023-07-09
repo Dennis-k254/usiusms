@@ -23,15 +23,15 @@ export const createScholarship = createAsyncThunk(
   "schol/createScholarship",
   async (values) => {
     try {
-      const scholarship = await axios.post(
-        `http://localhost:8000/api/register`,
+      const response = await axios.post(
+        "http://localhost:8000/api/scholarship",
         {
           scholarshipName: values.scholarshipName,
           category: values.category,
           applicationDeadline: values.applicationDeadline,
         }
       );
-      console.log(scholarship);
+      console.log(response.data);
       return response.data;
     } catch (error) {
       console.log("error creating scholarship");
