@@ -49,16 +49,19 @@ const Menu = () => {
           <EventRepeatIcon />
           Renew Schorlaship
         </li>
-        <li className="flex flex-row gap-2">
-          <LibraryBooksIcon />
-          Schorlaship Collection
-        </li>
+
+        <Link to="/scholarships">
+          <li className="flex flex-row gap-2">
+            <LibraryBooksIcon />
+            Schorlaship Collection
+          </li>
+        </Link>
+
         <li className="flex flex-row gap-2">
           <PersonIcon />
           Profile
         </li>
         <Link to="/login">
-          {" "}
           <li className="flex flex-row gap-2" onClick={handleLogout}>
             <LogoutIcon />
             {auth._id ? <p>Logout</p> : <p>Login</p>}
