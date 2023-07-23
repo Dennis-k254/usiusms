@@ -12,7 +12,11 @@ const HeadSec = () => {
     <div className="flex flex-col justify-center items-center w-[100%] my-10  gap-20">
       <div className=" flex flex-row justify-between w-[100%] gap-40">
         <h1 className="text-darkblue font-bold text-[20px]">
-          Welcome, Student {auth.name}
+          {auth.isAdmin ? (
+            <p>Welcome Admin {auth.name} </p>
+          ) : (
+            <p>Welcome, Student {auth.name}</p>
+          )}
         </h1>
         <div className="bg-white p-2 rounded-full flex flex-row text-blue-200 gap-12 items-center ">
           <div className="flex flex-row bg-transblue rounded-full mx-4 items-center justify-center px-2 ">

@@ -37,19 +37,22 @@ const Menu = () => {
           </li>
         </Link>
 
-        <Link to="/apply">
-          {" "}
-          <li className="flex flex-row gap-2">
-            <ApprovalIcon />
-            Apply Scholarship
-            
-          </li>
-        </Link>
+        {auth.isAdmin ? null : (
+          <Link to="/apply">
+            {" "}
+            <li className="flex flex-row gap-2">
+              <ApprovalIcon />
+              Apply Scholarship
+            </li>
+          </Link>
+        )}
 
-        <li className="flex flex-row gap-2">
-          <EventRepeatIcon />
-          Renew Scholarship
-        </li>
+        {auth.isAdmin ? null : (
+          <li className="flex flex-row gap-2">
+            <EventRepeatIcon />
+            Renew Scholarship
+          </li>
+        )}
 
         <Link to="/scholarships">
           <li className="flex flex-row gap-2">
