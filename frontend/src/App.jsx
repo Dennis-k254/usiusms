@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Apply from "./pages/Apply";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
+import AdminDash from "./pages/AdminDash";
 import ScholCollection from "./pages/ScholCollection";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path="/apply" element={<Apply />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/admin" element={<AdminDash />} />
         <Route path="/scholarships" element={<ScholCollection />} />
       </Routes>
     </div>

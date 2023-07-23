@@ -6,8 +6,9 @@ import PersonIcon from "@mui/icons-material/Person";
 import HeadSec from "../components/HeadSec";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import React from "react";
 
-function Home() {
+function AdminDash() {
   const auth = useSelector((state) => state.auth);
   return (
     <div className="flex flex-row  h-[100vh]">
@@ -42,4 +43,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default AdminDash;
