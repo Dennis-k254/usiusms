@@ -18,21 +18,10 @@ function Home() {
         <div className="flex flex-col ">
           <HeadSec />
 
-          <div className="flex flex-row flex-wrap items-center justify-around gap-20 max-w-[800px]  p-20 ">
-            <div className="bg-white rounded-lg w-[250px] h-[250px] justify-center items-center flex flex-col text-darkblue shadow-lg opacity-70 hover:opacity-95 ">
-              <h1 className="font-bold text-[20px] ">Apply Scholarship</h1>
-
-              <ApprovalIcon className="text-[200px]" fontSize="" />
-            </div>
-            <div className="bg-white rounded-lg w-[250px] h-[250px] justify-center items-center flex flex-col text-darkblue shadow-lg opacity-70 hover:opacity-95  ">
-              <h1 className="font-bold text-[20px]">Renew Scholarship</h1>
-              <EventRepeatIcon className="text-[200px]" fontSize="" />{" "}
-            </div>
-
             <Link to="/scholarships">
               <div className="bg-white rounded-lg w-[250px] h-[250px] justify-center items-center flex flex-col text-darkblue shadow-lg opacity-70 hover:opacity-95 ">
                 <h1 className="font-bold text-[20px]">
-                Scholarship Collection
+                  Scholarship Collection
                 </h1>
                 <LibraryBooksIcon className="text-[200px]" fontSize="" />
               </div>
@@ -43,6 +32,9 @@ function Home() {
               <PersonIcon className="text-[200px]" fontSize="" />
             </div>
 
+            <div className="bg-white rounded-lg w-[250px] h-[250px] justify-center items-center flex flex-col text-darkblue shadow-lg opacity-70 hover:opacity-95 ">
+              <h1 className="font-bold text-[20px]">Manage users</h1>
+              <PersonIcon className="text-[200px]" fontSize="" />
             </div>
           </div>
         </div>

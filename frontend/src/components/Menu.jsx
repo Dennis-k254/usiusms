@@ -41,19 +41,20 @@ const Menu = () => {
           {" "}
           <li className="flex flex-row gap-2">
             <ApprovalIcon />
-            Apply Schorlaship
+            Apply Scholarship
+            
           </li>
         </Link>
 
         <li className="flex flex-row gap-2">
           <EventRepeatIcon />
-          Renew Schorlaship
+          Renew Scholarship
         </li>
 
         <Link to="/scholarships">
           <li className="flex flex-row gap-2">
             <LibraryBooksIcon />
-            Schorlaship Collection
+            Scholarship Collection
           </li>
         </Link>
 

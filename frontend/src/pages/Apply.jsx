@@ -36,7 +36,7 @@ const Apply = () => {
             </div>
             <div className="flex flex-col items-center gap-10">
               <h1 className="font-bold text-darkblue text-2xl items-start w-full  flex  ">
-                Schorlaship Criteria
+              Scholarship Criteria
               </h1>
               <p className=" flex flex-row gap-2 font-semibold">
                 Area of study :{" "}
@@ -140,7 +140,7 @@ const Apply = () => {
             <div className="pt-20">
               <h1 className="text-[50px] font-bold">12 </h1>
               <p className="font-semibold text-[20px] ">
-                Schorlaships match your criteria
+              Scholarship match your criteria
               </p>
             </div>
 

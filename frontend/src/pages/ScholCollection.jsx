@@ -38,7 +38,7 @@ const ScholCollection = () => {
   const [full, setFull] = useState(false);
   const [partial, setPartial] = useState(false);
   const [physicall, setPhysicall] = useState(false);
-  const [underprivillage, setUnderprivillage] = useState(false);
+  const [underprivilleged, setUnderprivilleged] = useState(false);
   const [educational, setEducational] = useState(false);
   const [masterCard, setMasterCard] = useState(false);
 
@@ -85,7 +85,7 @@ const ScholCollection = () => {
     setFull(categoryValue === "Full");
     setPartial(categoryValue === "Partial");
     setEducational(categoryValue === "Educational Trustfund");
-    setUnderprivillage(categoryValue === "Underprivillage Communities");
+    setUnderprivilleged(categoryValue === "Underprivilleged Communities");
     setMasterCard(categoryValue === "Mater Card");
     setPhysicall(categoryValue === "Physically Challenged");
 
@@ -159,8 +159,8 @@ const ScholCollection = () => {
                     ) : diversity ? (
                       <>
                         {" "}
-                        <option value="Underprivillaged Communities">
-                          Underprivillaged Communities
+                        <option value="Underprivilleged Communities">
+                          Underprivilleged Communities
                         </option>{" "}
                         <option value="Physically Challenged">
                           Physically Challenged
