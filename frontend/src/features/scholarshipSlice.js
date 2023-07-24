@@ -3,6 +3,7 @@ import axios from "axios";
 
 const initialState = {
   scholarships: JSON.parse(localStorage.getItem("scholarships")),
+  userScholarships: JSON.parse(localStorage.getItem("userScholarships")),
 };
 
 export const getScholarships = createAsyncThunk(
@@ -48,20 +49,36 @@ export const addScholarshipToUser = createAsyncThunk(
       const token = localStorage.getItem("token");
       console.log(token);
       const response = await axios.post(
-        `http://localhost:8000/api/user/${userId}/addScholarship`,
+        `http://localhost:8000/api/addScholarship/${userId}`,
         {
+          userId,
           scholarshipId,
           status,
           applicationDeadline,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` }, // Add this line if you are using JWT for authentication
         }
       );
+      console.log("response", response.data);
 
       return response.data;
     } catch (error) {
       console.log("error adding scholarship to user");
+      throw error;
+    }
+  }
+);
+
+export const getUserScholarships = createAsyncThunk(
+  "schol/getUserScholarships",
+  async ({ userId }) => {
+    try {
+      console.log(userId);
+      const response = await axios.get(
+        `http://localhost:8000/api/addScholarship/${userId}`
+      );
+      console.log("schol", response.data);
+      return response.data;
+    } catch (error) {
+      console.log("error fetching data");
       throw error;
     }
   }
@@ -84,6 +101,10 @@ const scholarshipSlice = createSlice({
     });
     builder.addCase(getScholarships.rejected, (state, action) => {
       console.log("error");
+    });
+    builder.addCase(getUserScholarships.fulfilled, (state, action) => {
+      state.userSchorlaships = action.payload;
+      localStorage.setItem("userScholarships", JSON.stringify(action.payload));
     });
   },
 });

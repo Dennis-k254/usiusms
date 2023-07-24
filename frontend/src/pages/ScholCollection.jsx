@@ -8,10 +8,14 @@ import "react-datepicker/dist/react-datepicker.css";
 import {
   createScholarship,
   getScholarships,
+  getUserScholarships,
 } from "../features/scholarshipSlice";
+import FolderOpenOutlinedIcon from "@mui/icons-material/FolderOpenOutlined";
 
 const ScholCollection = () => {
   const scholarships = useSelector((state) => state.schol.scholarships);
+  const userScholarships = useSelector((state) => state.schol.userScholarships);
+  const auth = useSelector((state) => state.auth);
 
   const [selectedDate, setSelectedDate] = useState(null);
   const [newScholarship, setNewScholarship] = useState({
@@ -95,6 +99,11 @@ const ScholCollection = () => {
     });
   };
 
+  useEffect(() => {
+    dispatch(getUserScholarships({ userId: auth._id }));
+    console.log("sueer", userScholarships);
+  });
+
   return (
     <div className="flex flex-row bg-gray ">
       <div>
@@ -110,7 +119,9 @@ const ScholCollection = () => {
               Scholarship Collection
             </h1>
             <button
-              className="m-8 bg-darkblue text-white w-28"
+              className={`${
+                auth.isAdmin ? "m-8 bg-darkblue text-white w-28" : "hidden"
+              }`}
               onClick={handleAddButtonClick}
             >
               ADD
@@ -191,7 +202,7 @@ const ScholCollection = () => {
                   SUBMIT
                 </button>
               </div>
-            ) : (
+            ) : auth.isAdmin ? (
               <div className="flex flex-row gap-20 flex-wrap items-center justify-center ">
                 <div className="gap-10 flex flex-row flex-wrap items-center justify-center">
                   {scholarships.map((scholarship) => (
@@ -200,6 +211,21 @@ const ScholCollection = () => {
                     </div>
                   ))}
                 </div>
+              </div>
+            ) : (
+              <div className="flex flex-row flex-wrap gap-10 m-4">
+                {userScholarships.scholarships.map((scholarships) => (
+                  <>
+                    <div className="flex flex-col items-center justify-center bg-gray rounded-lg p-10">
+                      <FolderOpenOutlinedIcon
+                        className="text-[100px]"
+                        fontSize=""
+                      />
+                      <p>{scholarships.scholarship.scholarshipName}</p>
+                      <p>{scholarships.status}</p>
+                    </div>
+                  </>
+                ))}
               </div>
             )}
           </div>

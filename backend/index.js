@@ -18,7 +18,7 @@ app.use(express.json());
 app.use("/api/login", login);
 app.use("/api/register", register);
 app.use("/api/scholarship", scholaship);
-app.use("/api/user/:userId/addScholarship", addScholarship);
+app.use("/api/addScholarship", addScholarship);
 
 const port = 8000;
 const uri =
