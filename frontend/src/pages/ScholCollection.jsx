@@ -51,7 +51,7 @@ const ScholCollection = () => {
   };
 
   const handleFormSubmit = () => {
-    // Handle form submission logic here
+    // Scholarship submission logic
     dispatch(createScholarship(newScholarship))
       .then(() => {
         setShowForm(false);

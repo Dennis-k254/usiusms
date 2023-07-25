@@ -6,6 +6,7 @@ const initialState = {
   userScholarships: JSON.parse(localStorage.getItem("userScholarships")),
 };
 
+// Fetching all scholarships
 export const getScholarships = createAsyncThunk(
   "schol/getScholarships",
   async () => {
@@ -19,6 +20,8 @@ export const getScholarships = createAsyncThunk(
     }
   }
 );
+
+// Creating a new scholarship by admin
 
 export const createScholarship = createAsyncThunk(
   "schol/createScholarship",
@@ -40,6 +43,8 @@ export const createScholarship = createAsyncThunk(
     }
   }
 );
+
+// Add spefic users scholarships application to users schorlaship array
 
 export const addScholarshipToUser = createAsyncThunk(
   "schol/addScholarshipToUser",
@@ -67,6 +72,8 @@ export const addScholarshipToUser = createAsyncThunk(
     }
   }
 );
+
+// Get spefic users approved and rejected scholarships
 
 export const getUserScholarships = createAsyncThunk(
   "schol/getUserScholarships",
@@ -104,7 +111,7 @@ const scholarshipSlice = createSlice({
       console.log("error");
     });
     builder.addCase(getUserScholarships.fulfilled, (state, action) => {
-      state.userSchorlaships = action.payload;
+      state.userScholarships = action.payload;
       localStorage.setItem("userScholarships", JSON.stringify(action.payload));
     });
   },
