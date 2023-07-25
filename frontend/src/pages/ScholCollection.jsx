@@ -222,6 +222,7 @@ const ScholCollection = () => {
                         fontSize=""
                       />
                       <p>{scholarships.scholarship.scholarshipName}</p>
+                      <p>{scholarships.category}</p>
                       <p>{scholarships.status}</p>
                     </div>
                   </>

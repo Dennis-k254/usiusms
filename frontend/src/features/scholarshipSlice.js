@@ -43,7 +43,7 @@ export const createScholarship = createAsyncThunk(
 
 export const addScholarshipToUser = createAsyncThunk(
   "schol/addScholarshipToUser",
-  async ({ userId, scholarshipId, status, applicationDeadline }) => {
+  async ({ userId, scholarshipId, status, applicationDeadline, category }) => {
     try {
       console.log(userId, scholarshipId, status, applicationDeadline);
       const token = localStorage.getItem("token");
@@ -55,6 +55,7 @@ export const addScholarshipToUser = createAsyncThunk(
           scholarshipId,
           status,
           applicationDeadline,
+          category,
         }
       );
       console.log("response", response.data);

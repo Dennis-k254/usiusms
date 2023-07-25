@@ -2,12 +2,13 @@ const { Scholarship } = require("../models/scholarship");
 const express = require("express");
 const router = express.Router();
 const { User } = require("../models/user");
-// Assuming you have already defined your User and Scholarship models
+
 
 // API route to add a scholarship to the user's scholarships array
 router.post("/:userId", async (req, res) => {
   try {
-    const { scholarshipId, status, applicationDeadline, userId } = req.body;
+    const { scholarshipId, status, applicationDeadline, userId, category } =
+      req.body;
     const user = await User.findById(userId);
 
     if (!user) {
@@ -24,6 +25,7 @@ router.post("/:userId", async (req, res) => {
       scholarship: scholarshipId,
       status,
       applicationDeadline,
+      category,
     });
 
     await user.save();
@@ -33,6 +35,8 @@ router.post("/:userId", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
+// API route to get the user's scholarships array
 
 router.get("/:userId", async (req, res) => {
   try {

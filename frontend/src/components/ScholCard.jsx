@@ -16,8 +16,8 @@ const ScholCard = ({ scholarship }) => {
 
   const handleAddScholarshipToUser = async (userId, scholarshipId) => {
     try {
-      const status = "applied"; // You can change this value according to your requirements
-      const applicationDeadline = new Date(); // You can change this value according to your requirements
+      const status = "Approved"; //
+      const applicationDeadline = scholarship.applicationDeadline;
 
       await dispatch(
         addScholarshipToUser({
@@ -25,6 +25,7 @@ const ScholCard = ({ scholarship }) => {
           scholarshipId: scholarship._id,
           status,
           applicationDeadline,
+          category: scholarship.category,
         })
       );
     } catch (error) {
