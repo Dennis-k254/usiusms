@@ -24,8 +24,11 @@ function Home() {
         <div className="flex flex-col ">
           <HeadSec />
 
+          {/*Rendering homapage icons depending on the user's privillages */}
+
           {auth.isAdmin ? (
             <>
+              {/*Admin */}
               <div className="flex flex-row flex-wrap gap-12 items-center justify-center">
                 {" "}
                 <Link to="/scholarships">
@@ -48,7 +51,7 @@ function Home() {
             </>
           ) : (
             <>
-              {" "}
+              {/*User */}
               <div className="flex flex-row flex-wrap items-center justify-around gap-20 max-w-[800px]  p-20 ">
                 <div className="bg-white rounded-lg w-[250px] h-[250px] justify-center items-center flex flex-col text-darkblue shadow-lg opacity-70 hover:opacity-95 ">
                   <h1 className="font-bold text-[20px] ">Apply Scholarship</h1>

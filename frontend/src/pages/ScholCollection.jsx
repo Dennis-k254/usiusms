@@ -118,6 +118,7 @@ const ScholCollection = () => {
             <h1 className="w-full flex text-[30px] p-10">
               Scholarship Collection
             </h1>
+            {/*Only admin can access the add button */}
             <button
               className={`${
                 auth.isAdmin ? "m-8 bg-darkblue text-white w-28" : "hidden"
@@ -203,31 +204,38 @@ const ScholCollection = () => {
                 </button>
               </div>
             ) : auth.isAdmin ? (
-              <div className="flex flex-row gap-20 flex-wrap items-center justify-center ">
-                <div className="gap-10 flex flex-row flex-wrap items-center justify-center">
-                  {scholarships.map((scholarship) => (
-                    <div key={scholarship.id}>
-                      <ScholCard scholarship={scholarship} />
-                    </div>
+              <>
+                {/*For the admin this shows all scholarships availbale */}
+                <div className="flex flex-row gap-20 flex-wrap items-center justify-center ">
+                  <div className="gap-10 flex flex-row flex-wrap items-center justify-center">
+                    {scholarships.map((scholarship) => (
+                      <div key={scholarship.id}>
+                        <ScholCard scholarship={scholarship} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                {" "}
+                {/*For the user this shows only the approved and rejected scholarships*/}
+                <div className="flex flex-row flex-wrap gap-10 m-4">
+                  {userScholarships.scholarships.map((scholarships) => (
+                    <>
+                      <div className="flex flex-col items-center justify-center bg-gray rounded-lg p-10">
+                        <FolderOpenOutlinedIcon
+                          className="text-[100px]"
+                          fontSize=""
+                        />
+                        <p>{scholarships.scholarship.scholarshipName}</p>
+                        <p>{scholarships.category}</p>
+                        <p>{scholarships.status}</p>
+                      </div>
+                    </>
                   ))}
                 </div>
-              </div>
-            ) : (
-              <div className="flex flex-row flex-wrap gap-10 m-4">
-                {userScholarships.scholarships.map((scholarships) => (
-                  <>
-                    <div className="flex flex-col items-center justify-center bg-gray rounded-lg p-10">
-                      <FolderOpenOutlinedIcon
-                        className="text-[100px]"
-                        fontSize=""
-                      />
-                      <p>{scholarships.scholarship.scholarshipName}</p>
-                      <p>{scholarships.category}</p>
-                      <p>{scholarships.status}</p>
-                    </div>
-                  </>
-                ))}
-              </div>
+              </>
             )}
           </div>
         </div>

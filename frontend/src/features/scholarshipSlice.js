@@ -74,7 +74,6 @@ export const addScholarshipToUser = createAsyncThunk(
 );
 
 // Get spefic users approved and rejected scholarships
-
 export const getUserScholarships = createAsyncThunk(
   "schol/getUserScholarships",
   async ({ userId }) => {

@@ -37,6 +37,8 @@ const Menu = () => {
           </li>
         </Link>
 
+        {/* Can only be seen by the student*/}
+
         {auth.isAdmin ? null : (
           <Link to="/apply">
             {" "}
@@ -46,6 +48,8 @@ const Menu = () => {
             </li>
           </Link>
         )}
+
+        {/* Can only be seen by the student*/}
 
         {auth.isAdmin ? null : (
           <li className="flex flex-row gap-2">
