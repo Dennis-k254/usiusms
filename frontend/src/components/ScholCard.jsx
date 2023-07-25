@@ -37,7 +37,6 @@ const ScholCard = ({ scholarship }) => {
     <div>
       <div className="flex flex-col bg-gray rounded-lg items-center p-2 w-[300px] ">
         <FolderOpenOutlinedIcon fontSize="" className="text-[100px]" />
-        <p>{scholarship._id}</p>
         <p>{scholarship.scholarshipName}</p>
         <p>{scholarship.category}</p>
         <p>{formattedDeadline}</p>

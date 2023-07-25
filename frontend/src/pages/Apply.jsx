@@ -1,14 +1,9 @@
 // eslint-disable-next-line no-unused-vars
 import React from "react";
 import HeadSec from "../components/HeadSec";
-import Box from "@mui/material/Box";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
 import Menu from "../components/Menu";
-import { image } from "../assets";
 import ScholCard from "../components/ScholCard";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const Apply = () => {
   const scholarships = useSelector((state) => state.schol.scholarships);

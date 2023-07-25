@@ -3,6 +3,8 @@ const express = require("express");
 const router = express.Router();
 const Joi = require("joi");
 
+// API route to add scholarship to database by admin
+
 router.post("/", async (req, res) => {
   const { scholarshipName, category, applicationDeadline } = req.body;
 
