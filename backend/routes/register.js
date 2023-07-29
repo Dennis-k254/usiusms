@@ -14,10 +14,19 @@ router.post("/", async (req, res) => {
 
   const { error } = schema.validate(req.body);
 
-  if (error) return res.status(400).send(error.details[0].message);
+  if (error) {
+    return res.status(400).send(error.details[0].message);
+  }
+
+  const emailValidate = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailValidate.test(req.body.email)) {
+    return res.status(400).json({ valid: false, message: 'Invalid email format.' });
+  }
 
   let user = await User.findOne({ email: req.body.email });
-  if (user) return res.status(400).send("User already exists...");
+  if (user) {
+    return res.status(400).send("User already exists...");
+  }
 
   console.log("here");
 
