@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
+import { toast } from "react-toastify";
 
 const initialState = {
   token: localStorage.getItem("token"),
@@ -29,7 +30,7 @@ export const registerUser = createAsyncThunk(
 
       return token.data;
     } catch (error) {
-      console.log(error.response.data);
+      toast.error(error.response.data);
       return rejectWithValue(error.response.data);
     }
   }
@@ -47,7 +48,7 @@ export const loginUser = createAsyncThunk(
       localStorage.setItem("token", token.data);
       return token.data;
     } catch (error) {
-      console.log(error.response);
+      toast.error(error.response.data);
       return rejectWithValue(error.response.data);
     }
   }

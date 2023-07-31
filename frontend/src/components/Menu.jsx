@@ -21,6 +21,8 @@ const Menu = () => {
     navigate("/login");
   };
 
+  
+
   return (
     <div className="bg-darkblue rounded-r-2xl flex flex-col text-white w-[200px] items-center gap-32 h-[130vh] ">
       <img
