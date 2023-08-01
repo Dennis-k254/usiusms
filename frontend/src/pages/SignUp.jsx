@@ -105,7 +105,7 @@ const SignUp = () => {
             </p>
           ) : !isMatching && user.confirmPass.length < 3 ? null : (
             <p className="text-style: italic mb-4 font-bold text-red-800">
-              password doesn't match.
+              passwords don't match
             </p>
           )}
 
