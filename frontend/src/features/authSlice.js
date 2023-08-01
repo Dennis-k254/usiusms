@@ -44,7 +44,6 @@ export const loginUser = createAsyncThunk(
         email: values.email,
         password: values.password,
       });
-
       localStorage.setItem("token", token.data);
       return token.data;
     } catch (error) {
@@ -78,6 +77,7 @@ const authSlice = createSlice({
     logoutUser(state, action) {
       localStorage.removeItem("token");
       localStorage.removeItem("userSchorlaship");
+      toast.success("Logout successfull");
 
       return {
         ...state,
@@ -94,6 +94,9 @@ const authSlice = createSlice({
       };
     },
   },
+
+  //Builder functions
+
   extraReducers: (builder) => {
     builder.addCase(registerUser.pending, (state, action) => {
       return { ...state, registerStatus: "pending" };
@@ -101,6 +104,7 @@ const authSlice = createSlice({
     builder.addCase(registerUser.fulfilled, (state, action) => {
       if (action.payload) {
         const user = jwtDecode(action.payload);
+        toast.success("Account created successfully");
         return {
           ...state,
           token: action.payload,
@@ -108,7 +112,6 @@ const authSlice = createSlice({
           email: user.email,
           _id: user._id,
           isAdmin: user.isAdmin,
-
           registerStatus: "success",
         };
       } else return state;
@@ -123,6 +126,7 @@ const authSlice = createSlice({
     builder.addCase(loginUser.fulfilled, (state, action) => {
       if (action.payload) {
         const user = jwtDecode(action.payload);
+        toast.success("Login successfull");
         return {
           ...state,
           token: action.payload,

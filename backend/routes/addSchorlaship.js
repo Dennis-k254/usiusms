@@ -3,7 +3,6 @@ const express = require("express");
 const router = express.Router();
 const { User } = require("../models/user");
 
-
 // API route to add a scholarship to the user's scholarships array
 router.post("/:userId", async (req, res) => {
   try {
@@ -18,6 +17,14 @@ router.post("/:userId", async (req, res) => {
     const scholarship = await Scholarship.findById(scholarshipId);
     if (!scholarship) {
       return res.status(404).json({ error: "Scholarship not found" });
+    }
+    const existingScholarship = user.scholarships.find(
+      (scholarshipObj) =>
+        scholarshipObj.scholarship.toString() === scholarshipId
+    );
+
+    if (existingScholarship) {
+      return res.status(409).json({ error: "Scholarship already added" });
     }
 
     // Add the scholarship to the user's scholarships array
