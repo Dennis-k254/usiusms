@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { google } from "../assets";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../features/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [user, setUser] = useState({
@@ -14,7 +15,7 @@ const SignUp = () => {
     password: "",
     confirmPass: "",
   });
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [isMatching, setIsmatching] = useState(false);
@@ -32,12 +33,14 @@ const SignUp = () => {
 
   useEffect(() => {
     confirmPass();
+    if (auth._id) {
+      navigate("/");
+    }
   }, [confirmPass]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(registerUser(user));
-    console.log(auth);
   };
 
   return (
@@ -109,17 +112,6 @@ const SignUp = () => {
             </p>
           )}
 
-          <div className="flex flex-row items-start  ">
-            <form className="gap-2 flex w-full font-semibold   ">
-              <h1>Role:</h1>
-              <input type="radio" value="students" />
-              <label htmlFor="html">Students</label>
-              <input type="radio" value="finance" />
-              <label htmlFor="html">Finance</label>
-              <input type="radio" value="admin" />
-              <label htmlFor="html">Admin</label>
-            </form>
-          </div>
           <div>
             <button
               className="bg-blue-900  text-white rounded-lg px-4 py-2 w-full"

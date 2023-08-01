@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const initialState = {
   scholarships: JSON.parse(localStorage.getItem("scholarships")),
@@ -38,7 +39,7 @@ export const createScholarship = createAsyncThunk(
       console.log(response.data);
       return response.data;
     } catch (error) {
-      console.log("error adding scholarship to user", error);
+      toast.error("error adding scholarship to user", error);
       throw error;
     }
   }
@@ -67,7 +68,7 @@ export const addScholarshipToUser = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      console.log("error adding scholarship to user");
+      toast.error("Scholarship already applied", error);
       throw error;
     }
   }
@@ -112,6 +113,12 @@ const scholarshipSlice = createSlice({
     builder.addCase(getUserScholarships.fulfilled, (state, action) => {
       state.userScholarships = action.payload;
       localStorage.setItem("userScholarships", JSON.stringify(action.payload));
+    });
+    builder.addCase(createScholarship.fulfilled, (state, action) => {
+      toast.success("Scholarship added");
+    });
+    builder.addCase(addScholarshipToUser.fulfilled, (state, action) => {
+      toast.success("Scholarship successfully applied");
     });
   },
 });
