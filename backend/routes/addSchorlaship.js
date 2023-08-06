@@ -6,7 +6,7 @@ const { User } = require("../models/user");
 // API route to add a scholarship to the user's scholarships array
 router.post("/:userId", async (req, res) => {
   try {
-    const { scholarshipId, status, applicationDeadline, userId, category } =
+    const { scholarshipId, status, applicationDeadline, userId, category, GPARequirement } =
       req.body;
     const user = await User.findById(userId);
 

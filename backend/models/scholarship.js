@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-//DB schema
+// DB schema
 const scholarshipSchema = new mongoose.Schema({
   scholarshipName: { type: String, required: true },
   category: { type: String, required: true },

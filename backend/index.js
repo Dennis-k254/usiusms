@@ -8,17 +8,18 @@ const register = require("./routes/register");
 const scholaship = require("./routes/scholarshipUpdate");
 const addScholarship = require("./routes/addSchorlaship");
 
+
 const app = express();
 
 dotenv.config();
 
 app.use(cors());
 app.use(express.json());
-
 app.use("/api/login", login);
 app.use("/api/register", register);
 app.use("/api/scholarship", scholaship);
 app.use("/api/addScholarship", addScholarship);
+
 
 const port = 8000;
 const uri =

@@ -41,11 +41,12 @@ const ScholCard = ({ scholarship }) => {
         <p>{scholarship.category}</p>
         <p>{formattedDeadline}</p>
         <button
-          className="bg-darkblue text-white rounded px-6 py-2 m-4"
-          onClick={handleAddScholarshipToUser}
-        >
-          Apply
-        </button>
+  className="bg-darkblue text-white rounded px-6 py-2 m-4"
+  onClick={() => handleAddScholarshipToUser(auth._id, scholarship._id)}
+>
+  Apply
+</button>
+
       </div>
     </div>
   );

@@ -8,9 +8,11 @@ import "react-datepicker/dist/react-datepicker.css";
 import {
   createScholarship,
   getScholarships,
+  addScholarshipToUser,
   getUserScholarships,
 } from "../features/scholarshipSlice";
 import FolderOpenOutlinedIcon from "@mui/icons-material/FolderOpenOutlined";
+import { toast } from "react-toastify";
 
 const ScholCollection = () => {
   const scholarships = useSelector((state) => state.schol.scholarships);
@@ -19,9 +21,10 @@ const ScholCollection = () => {
 
   const [selectedDate, setSelectedDate] = useState(null);
   const [newScholarship, setNewScholarship] = useState({
-    scholarshipName: "",
-    category: "",
+    scholarshipId: "", // Assuming you have a way to obtain the scholarship ID
+    status: "Pending", // Assuming you want to set the default status as "Pending"
     applicationDeadline: "",
+    category: "",
   });
 
   const handleDateChange = (date) => {
@@ -46,28 +49,29 @@ const ScholCollection = () => {
   const [educational, setEducational] = useState(false);
   const [masterCard, setMasterCard] = useState(false);
 
-  const handleAddButtonClick = () => {
-    setShowForm(true);
-  };
-
-  const handleFormSubmit = () => {
-    // Scholarship submission logic
-    dispatch(createScholarship(newScholarship))
-      .then(() => {
-        setShowForm(false);
-        setNewScholarship({
-          scholarshipName: "",
-          category: "",
-          applicationDeadline: "",
-        });
-        setSelectedDate(null);
-        dispatch(getScholarships());
-      })
-      .catch((error) => {
-        console.log("Error creating scholarship:", error);
+  const handleApplyButtonClick = () => {
+    dispatch(addScholarshipToUser({
+      userId: auth._id,
+      scholarshipId: newScholarship.scholarshipId,
+      status: newScholarship.status,
+      applicationDeadline: newScholarship.applicationDeadline,
+      category: newScholarship.category,
+    }))
+    .then(() => {
+      setShowForm(false);
+      setNewScholarship({
+        scholarshipId: "",
+        status: "Pending",
+        applicationDeadline: "",
+        category: "",
       });
-    console.log(newScholarship);
-    setShowForm(false);
+      setSelectedDate(null);
+      dispatch(getScholarships());
+      dispatch(getUserScholarships({ userId: auth._id }));
+    })
+    .catch((error) => {
+      console.log("Error applying scholarship:", error);
+    });
   };
 
   const handleSelectChange = (event) => {
@@ -101,15 +105,15 @@ const ScholCollection = () => {
 
   useEffect(() => {
     dispatch(getUserScholarships({ userId: auth._id }));
-    console.log("sueer", userScholarships);
-  });
+    console.log("user", userScholarships);
+  }, [dispatch, auth._id]);
 
   return (
-    <div className="flex flex-row bg-gray ">
+    <div className="flex flex-row bg-gray">
       <div>
         <Menu />
       </div>
-      <div className="  flex flex-col w-full mx-8 ">
+      <div className="flex flex-col w-full mx-8">
         <div>
           <HeadSec />
         </div>
@@ -171,8 +175,8 @@ const ScholCollection = () => {
                     ) : diversity ? (
                       <>
                         {" "}
-                        <option value="Underprivilleged Communities">
-                          Underprivilleged Communities
+                        <option value="Underprivileged Communities">
+                          Underprivileged Communities
                         </option>{" "}
                         <option value="Physically Challenged">
                           Physically Challenged
@@ -195,7 +199,7 @@ const ScholCollection = () => {
                     className=" flex flex-col border-2 w-full"
                   />
                 </div>
-
+               
                 <button
                   onClick={handleFormSubmit}
                   className="m-8 bg-darkblue text-white w-28 py-8"
@@ -205,34 +209,26 @@ const ScholCollection = () => {
               </div>
             ) : auth.isAdmin ? (
               <>
-                {/*For the admin this shows all scholarships availbale */}
-                <div className="flex flex-row gap-20 flex-wrap items-center justify-center ">
-                  <div className="gap-10 flex flex-row flex-wrap items-center justify-center">
-                    {scholarships.map((scholarship) => (
-                      <div key={scholarship.id}>
-                        <ScholCard scholarship={scholarship} />
-                      </div>
-                    ))}
-                  </div>
+                {/* For the admin, this shows all scholarships available */}
+                <div className="flex flex-row gap-20 flex-wrap items-center justify-center">
+                  {scholarships.map((scholarship) => (
+                    <div key={scholarship.id}>
+                      <ScholCard scholarship={scholarship} />
+                    </div>
+                  ))}
                 </div>
               </>
             ) : (
               <>
-                {" "}
-                {/*For the user this shows only the approved and rejected scholarships*/}
+                {/* For the user, this shows only the approved and rejected scholarships */}
                 <div className="flex flex-row flex-wrap gap-10 m-4">
-                  {userScholarships.scholarships.map((scholarships) => (
-                    <>
-                      <div className="flex flex-col items-center justify-center bg-gray rounded-lg p-10">
-                        <FolderOpenOutlinedIcon
-                          className="text-[100px]"
-                          fontSize=""
-                        />
-                        <p>{scholarships.scholarship.scholarshipName}</p>
-                        <p>{scholarships.category}</p>
-                        <p>{scholarships.status}</p>
-                      </div>
-                    </>
+                  {userScholarships.scholarships.map((scholarship) => (
+                    <div key={scholarship._id} className="flex flex-col items-center justify-center bg-gray rounded-lg p-10">
+                      <FolderOpenOutlinedIcon className="text-[100px]" fontSize="" />
+                      <p>{scholarship.scholarshipName}</p>
+                      <p>{scholarship.category}</p>
+                      <p>{scholarship.status}</p>
+                    </div>
                   ))}
                 </div>
               </>
@@ -245,3 +241,4 @@ const ScholCollection = () => {
 };
 
 export default ScholCollection;
+

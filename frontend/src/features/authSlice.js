@@ -24,6 +24,7 @@ export const registerUser = createAsyncThunk(
         name: values.name,
         email: values.email,
         password: values.password,
+        gpa: values.gpa,
       });
 
       localStorage.setItem("token", token.data);
@@ -52,6 +53,29 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
+
+export const updateGPA = createAsyncThunk(
+  "auth/updateGPA",
+  async (gpa, { getState, rejectWithValue }) => {
+    try {
+      const { token, _id } = getState().auth;
+      const response = await axios.put(
+        `http://localhost:8000/api/users/${_id}`,
+        { gpa },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      toast.error(error.response.data);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 
 const authSlice = createSlice({
   name: "auth",
@@ -146,6 +170,21 @@ const authSlice = createSlice({
         loginError: action.payload,
       };
     });
+
+    builder.addCase(updateGPA.pending, (state, action) => {
+      // Handle loading state if needed
+    });
+    
+    builder.addCase(updateGPA.fulfilled, (state, action) => {
+      // Update the state with the new GPA value if the API call is successful
+      state.gpa = action.payload; // Use action.payload directly, as it contains the new GPA value
+    });    
+    
+    builder.addCase(updateGPA.rejected, (state, action) => {
+      // Handle error state if needed
+    });
+    
+
   },
 });
 

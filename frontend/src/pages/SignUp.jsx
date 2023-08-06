@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { login } from "../assets";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import GoogleIcon from "@mui/icons-material/Google";
-import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
-import { Link } from "react-router-dom";
 import { google } from "../assets";
-import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../features/authSlice";
-import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [user, setUser] = useState({
@@ -14,33 +12,27 @@ const SignUp = () => {
     email: "",
     password: "",
     confirmPass: "",
+    gpa: 0.0, // Initialize GPA to 0.0 for new users
   });
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const [isMatching, setIsmatching] = useState(false);
-
-  const auth = useSelector((state) => state.auth);
-
-  const confirmPass = () => {
-    if (user.password === user.confirmPass && user.password.length > 3) {
-      setIsmatching(true);
-    } else {
-      setIsmatching(false);
-    }
-    console.log(isMatching);
-  };
-
-  useEffect(() => {
-    confirmPass();
-    if (auth._id) {
-      navigate("/");
-    }
-  }, [confirmPass]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(registerUser(user));
+  };
+
+  const confirmPass = () => {
+    const isMatching = user.password === user.confirmPass && user.password.length > 3;
+    return isMatching;
+  };
+
+  const handleGPAChange = (e) => {
+    setUser({
+      ...user,
+      gpa: parseFloat(e.target.value),
+    });
   };
 
   return (
@@ -100,15 +92,25 @@ const SignUp = () => {
                 setUser({ ...user, confirmPass: e.target.value });
               }}
             />
+
+            <div>
+              <label>GPA:</label>
+              <input
+                type="number"
+                step="0.01"
+                value={user.gpa}
+                onChange={handleGPAChange}
+              />
+            </div>
           </form>
 
-          {isMatching ? (
+          {confirmPass() ? (
             <p className="text-style: italic mb-4 font-bold text-green">
               It's a match, proceed.
             </p>
-          ) : !isMatching && user.confirmPass.length < 3 ? null : (
+          ) : user.confirmPass.length < 3 ? null : (
             <p className="text-style: italic mb-4 font-bold text-red-800">
-              passwords don't match
+              Passwords don't match
             </p>
           )}
 

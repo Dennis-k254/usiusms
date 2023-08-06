@@ -21,11 +21,11 @@ const Apply = () => {
         <div className="flex flex-row bg-white mx-5 p-10 items-center justify-center gap-8  rounded-2xl ">
           <div className="flex flex-row gap-20 flex-wrap items-center justify-center ">
             <div className="gap-10 flex flex-row flex-wrap items-center justify-center">
-              {scholarships.map((scholarship) => (
-                <div key={scholarship.id}>
-                  <ScholCard scholarship={scholarship} />
-                </div>
-              ))}
+            {scholarships.map((scholarship, index) => (
+  <div key={scholarship.id || index}>
+    <ScholCard scholarship={scholarship} />
+  </div>
+))}
             </div>
           </div>
         </div>
