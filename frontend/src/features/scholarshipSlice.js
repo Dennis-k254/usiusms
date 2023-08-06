@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 const initialState = {
   scholarships: JSON.parse(localStorage.getItem("scholarships")),
   userScholarships: JSON.parse(localStorage.getItem("userScholarships")),
+  applicationStatus: "",
 };
 
 // Fetching all scholarships
@@ -26,11 +27,14 @@ export const createScholarship = createAsyncThunk(
   "schol/createScholarship",
   async (values) => {
     try {
-      const response = await axios.post("http://localhost:8000/api/scholarship", {
-        scholarshipName: values.scholarshipName,
-        category: values.category,
-        applicationDeadline: values.applicationDeadline,
-      });
+      const response = await axios.post(
+        "http://localhost:8000/api/scholarship",
+        {
+          scholarshipName: values.scholarshipName,
+          category: values.category,
+          applicationDeadline: values.applicationDeadline,
+        }
+      );
       return response.data;
     } catch (error) {
       toast.error("error adding scholarship to user", error);
@@ -42,37 +46,27 @@ export const createScholarship = createAsyncThunk(
 // Add specific user's scholarships application to user's scholarship array
 export const addScholarshipToUser = createAsyncThunk(
   "schol/addScholarshipToUser",
-  async ({ userId, scholarshipId, status, applicationDeadline, category }, { dispatch }) => {
+  async (
+    { userId, scholarshipId, status, applicationDeadline, category },
+    { rejectWithValue }
+  ) => {
     try {
-      // Fetch user's GPA from the server
-      const userResponse = await axios.get(`http://localhost:8000/api/users/${userId}`);
-      const userGPA = userResponse.data.gpa;
-       console.log("I'm here")
-      if (userGPA >= 3.0) {
-        // User meets GPA requirement, apply scholarship
-        const response = await axios.post(`http://localhost:8000/api/addScholarship/${userId}`, {
+      const response = await axios.post(
+        `http://localhost:8000/api/addScholarship/${userId}`,
+        {
           userId,
           scholarshipId,
           status,
           applicationDeadline,
           category,
-        });
+        }
+      );
 
-        dispatch(toast.success("Scholarship successfully applied"));
-        return response.data;
-
-      } else {
-        throw new Error("GPA requirement not met.");
-      }
+      toast.success("Scholarship successfully applied");
+      return response.data;
     } catch (error) {
-      if (error.response && error.response.status === 409) {
-        dispatch(toast.error("Scholarship already applied"));
-      } else if (error.message === "GPA requirement not met.") {
-        dispatch(toast.error("Your GPA is below the required minimum (3.0) for applying to scholarships."));
-      } else {
-        dispatch(toast.error("Error applying scholarship", error.message));
-      }
-      throw error;
+      toast.error(error.response.data.error);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -83,12 +77,14 @@ export const getUserScholarships = createAsyncThunk(
   async ({ userId }) => {
     try {
       console.log(userId);
-      const response = await axios.get(`http://localhost:8000/api/addScholarship/${userId}`);
+      const response = await axios.get(
+        `http://localhost:8000/api/addScholarship/${userId}`
+      );
       console.log("schol", response.data);
       return response.data;
     } catch (error) {
-      console.log("error fetching data");
-      throw error;
+      console.log(error.response.data);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -120,15 +116,19 @@ const scholarshipSlice = createSlice({
       return action.payload;
     });
     builder.addCase(addScholarshipToUser.fulfilled, (state, action) => {
-      // Returning the scholarship object will trigger the `fulfilled` case in the `extraReducers` function
-      return action.payload;
+      return { ...state, applicationStatus: "success" };
+      
     });
     builder.addCase(addScholarshipToUser.rejected, (state, action) => {
-      // Not needed, handled by the dispatch in the async thunk
+      
+      return { ...state, applicationStatus: "rejected" };
+     
+    });
+    builder.addCase(addScholarshipToUser.pending, (state, action) => {
+      return { ...state, applicationStatus: "pending" };
     });
   },
 });
 
 export const { loadScholarships } = scholarshipSlice.actions;
 export default scholarshipSlice.reducer;
-

@@ -17,13 +17,14 @@ const userSchema = new mongoose.Schema({
     maxlength: 1024,
   },
   isAdmin: { type: Boolean, default: false },
-  gpa: { type: Number, default: 0.0 }, // Assuming GPA is on a 4.0 scale
+  gpa: { type: String, default: 0.0 }, // Assuming GPA is on a 4.0 scale
   scholarships: [
     {
       scholarship: { type: mongoose.Schema.Types.ObjectId, ref: "Scholarship" },
       status: { type: String },
       applicationDeadline: { type: Date },
       category: { type: String },
+      gpaReq: { type: String },
     },
   ],
 });

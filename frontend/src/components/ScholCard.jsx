@@ -7,6 +7,7 @@ const ScholCard = ({ scholarship }) => {
   // Format the applicationDeadline
 
   const auth = useSelector((state) => state.auth);
+  const schol = useSelector((state) => state.schol);
 
   const dispatch = useDispatch();
 
@@ -41,12 +42,15 @@ const ScholCard = ({ scholarship }) => {
         <p>{scholarship.category}</p>
         <p>{formattedDeadline}</p>
         <button
-  className="bg-darkblue text-white rounded px-6 py-2 m-4"
-  onClick={() => handleAddScholarshipToUser(auth._id, scholarship._id)}
->
-  Apply
-</button>
-
+          className="bg-darkblue text-white rounded px-6 py-2 m-4"
+          onClick={() => handleAddScholarshipToUser(auth._id, scholarship._id)}
+        >
+          {schol.applicationStatus === "pending" ? (
+            <p>Loading</p>
+          ) : (
+            <p>Apply</p>
+          )}
+        </button>
       </div>
     </div>
   );

@@ -76,7 +76,6 @@ export const updateGPA = createAsyncThunk(
   }
 );
 
-
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -141,6 +140,7 @@ const authSlice = createSlice({
       } else return state;
     });
     builder.addCase(registerUser.rejected, (state, action) => {
+      toast.error(action.payload);
       return {
         ...state,
         registerStatus: "rejected",
@@ -163,7 +163,14 @@ const authSlice = createSlice({
         };
       } else return state;
     });
+    builder.addCase(loginUser.pending, (state, action) => {
+      return {
+        ...state,
+        loginStatus: "pending",
+      };
+    });
     builder.addCase(loginUser.rejected, (state, action) => {
+      toast.error(action.payload);
       return {
         ...state,
         loginStatus: "rejected",
@@ -174,17 +181,15 @@ const authSlice = createSlice({
     builder.addCase(updateGPA.pending, (state, action) => {
       // Handle loading state if needed
     });
-    
+
     builder.addCase(updateGPA.fulfilled, (state, action) => {
       // Update the state with the new GPA value if the API call is successful
       state.gpa = action.payload; // Use action.payload directly, as it contains the new GPA value
-    });    
-    
+    });
+
     builder.addCase(updateGPA.rejected, (state, action) => {
       // Handle error state if needed
     });
-    
-
   },
 });
 

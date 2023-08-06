@@ -6,25 +6,34 @@ const { User } = require("../models/user");
 // API route to add a scholarship to the user's scholarships array
 router.post("/:userId", async (req, res) => {
   try {
-    const { scholarshipId, status, applicationDeadline, userId, category, GPARequirement } =
+    const { scholarshipId, status, applicationDeadline, userId, category } =
       req.body;
     const user = await User.findById(userId);
+    console.log("gpa", user.gpa);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
     const scholarship = await Scholarship.findById(scholarshipId);
+    console.log("gpaReq", scholarship.gpaReq);
     if (!scholarship) {
       return res.status(404).json({ error: "Scholarship not found" });
     }
+
     const existingScholarship = user.scholarships.find(
       (scholarshipObj) =>
         scholarshipObj.scholarship.toString() === scholarshipId
     );
 
     if (existingScholarship) {
-      return res.status(409).json({ error: "Scholarship already added" });
+      return res.status(409).json({ error: "Scholarship already applied" });
+    }
+
+    if (user.gpa < scholarship.gpaReq) {
+      return res.status(409).json({
+        error: `Sorry, unfortunatly you dont qualify for this scholarship, your gpa must be above ${scholarship.gpaReq} `,
+      });
     }
 
     // Add the scholarship to the user's scholarships array

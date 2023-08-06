@@ -127,7 +127,7 @@ const ScholCollection = () => {
               className={`${
                 auth.isAdmin ? "m-8 bg-darkblue text-white w-28" : "hidden"
               }`}
-              onClick={handleAddButtonClick}
+              onClick={handleApplyButtonClick }
             >
               ADD
             </button>
