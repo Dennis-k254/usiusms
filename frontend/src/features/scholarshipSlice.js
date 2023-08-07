@@ -6,6 +6,7 @@ const initialState = {
   scholarships: JSON.parse(localStorage.getItem("scholarships")),
   userScholarships: JSON.parse(localStorage.getItem("userScholarships")),
   applicationStatus: "",
+  error: "",
 };
 
 // Fetching all scholarships
@@ -89,6 +90,26 @@ export const getUserScholarships = createAsyncThunk(
   }
 );
 
+export const updateGpa = createAsyncThunk(
+  "schol/updateGpa",
+  async ({ userId, gpa }) => {
+    try {
+      console.log(userId);
+      const response = await axios.post(
+        `http://localhost:8000/api/addScholarship/updateGpa/${userId}`,
+        {
+          gpa,
+        }
+      );
+      console.log("gpa", response.data);
+      return response.data;
+    } catch (error) {
+      console.log(error.response.data);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const scholarshipSlice = createSlice({
   name: "schol",
   initialState,
@@ -117,12 +138,13 @@ const scholarshipSlice = createSlice({
     });
     builder.addCase(addScholarshipToUser.fulfilled, (state, action) => {
       return { ...state, applicationStatus: "success" };
-      
     });
     builder.addCase(addScholarshipToUser.rejected, (state, action) => {
-      
-      return { ...state, applicationStatus: "rejected" };
-     
+      return {
+        ...state,
+        applicationStatus: "rejected",
+        error: action.payload.error,
+      };
     });
     builder.addCase(addScholarshipToUser.pending, (state, action) => {
       return { ...state, applicationStatus: "pending" };

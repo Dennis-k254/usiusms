@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import FolderOpenOutlinedIcon from "@mui/icons-material/FolderOpenOutlined";
 import { useDispatch, useSelector } from "react-redux";
 import { addScholarshipToUser } from "../features/scholarshipSlice";
 
 const ScholCard = ({ scholarship }) => {
   // Format the applicationDeadline
+
+ 
 
   const auth = useSelector((state) => state.auth);
   const schol = useSelector((state) => state.schol);

@@ -30,6 +30,10 @@ router.post("/:userId", async (req, res) => {
       return res.status(409).json({ error: "Scholarship already applied" });
     }
 
+    if (user.gpa <= "0") {
+      return res.status(403).json({ error: "Update your gpa to proceed" });
+    }
+
     if (user.gpa < scholarship.gpaReq) {
       return res.status(409).json({
         error: `Sorry, unfortunatly you dont qualify for this scholarship, your gpa must be above ${scholarship.gpaReq} `,
@@ -49,6 +53,31 @@ router.post("/:userId", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// Update gpa
+
+router.post("/updateGpa/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { gpa } = req.body;
+
+    const user = await User.findById(userId);
+
+    // Find the user by userId
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Update the user's GPA
+    user.gpa = gpa;
+    await user.save();
+
+    // Respond with the updated user
+    res.json({ message: "User's GPA updated successfully", user });
+  } catch (error) {
+    res.status(500).json({ error: "Failed updating gpa" });
   }
 });
 
