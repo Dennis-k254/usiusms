@@ -14,6 +14,7 @@ const initialState = {
   loginStatus: "",
   loginError: "",
   userLoaded: false,
+  users: [],
 };
 
 export const registerUser = createAsyncThunk(
@@ -72,6 +73,48 @@ export const updateGPA = createAsyncThunk(
     } catch (error) {
       toast.error(error.response.data);
       return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const getUsers = createAsyncThunk("auth/getUsers", async () => {
+  try {
+    const response = await axios.get(`http://localhost:8000/api/users`);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.log("Fetching failed", error);
+  }
+});
+
+export const toggleAdmin = createAsyncThunk(
+  "auth/toggleAdmin",
+  async (userId, { rejectWithValue }) => {
+    // Add { rejectWithValue } as the second argument
+    try {
+      const response = await axios.patch(
+        `http://localhost:8000/api/users/${userId}/toggleAdmin`
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const userDelete = createAsyncThunk(
+  "auth/userDelete",
+  async (userId) => {
+    try {
+      // Make the DELETE request to your API endpoint
+      const response = await axios.delete(
+        `http://localhost:8000/api/users/${userId}/delete`
+      );
+
+      // Handle the response (optional)
+      console.log(response.data.message);
+    } catch (error) {
+      console.error("Error deleting user", error.message);
     }
   }
 );
@@ -189,6 +232,12 @@ const authSlice = createSlice({
 
     builder.addCase(updateGPA.rejected, (state, action) => {
       // Handle error state if needed
+    });
+    builder.addCase(getUsers.fulfilled, (state, action) => {
+      return {
+        ...state,
+        users: action.payload,
+      };
     });
   },
 });

@@ -44,7 +44,9 @@ function Home() {
                   <PersonIcon className="text-[200px]" fontSize="" />
                 </div>
                 <div className="bg-white rounded-lg w-[250px] h-[250px] justify-center items-center flex flex-col text-darkblue shadow-lg opacity-70 hover:opacity-95 ">
-                  <h1 className="font-bold text-[20px]">Manage users</h1>
+                  <Link to="/users">
+                    <h1 className="font-bold text-[20px]">Manage users</h1>
+                  </Link>
                   <PersonIcon className="text-[200px]" fontSize="" />
                 </div>
               </div>
@@ -53,7 +55,9 @@ function Home() {
             <>
               {/*User */}
               <div className="flex flex-row flex-wrap items-center justify-around gap-20 max-w-[800px] p-20">
-                <Link to="/apply"> {/* Add the Link component here */}
+                <Link to="/apply">
+                  {" "}
+                  {/* Add the Link component here */}
                   <div className="bg-white rounded-lg w-[250px] h-[250px] justify-center items-center flex flex-col text-darkblue shadow-lg opacity-70 hover:opacity-95">
                     <h1 className="font-bold text-[20px]">Apply Scholarship</h1>
                     <ApprovalIcon className="text-[200px]" fontSize="" />

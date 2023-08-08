@@ -9,6 +9,7 @@ import AdminDash from "./pages/AdminDash";
 import ScholCollection from "./pages/ScholCollection";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import MangeUsers from "./pages/ManageUsers";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/admin" element={<AdminDash />} />
         <Route path="/scholarships" element={<ScholCollection />} />
+        <Route path="/users" element={<MangeUsers />} />
       </Routes>
     </div>
   );

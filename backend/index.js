@@ -7,6 +7,7 @@ const login = require("./routes/login");
 const register = require("./routes/register");
 const scholaship = require("./routes/scholarshipUpdate");
 const addScholarship = require("./routes/addSchorlaship");
+const users = require("./routes/getUsers.js");
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use("/api/login", login);
 app.use("/api/register", register);
 app.use("/api/scholarship", scholaship);
 app.use("/api/addScholarship", addScholarship);
+app.use("/api/users", users);
 
 const port = 8000;
 const uri =
