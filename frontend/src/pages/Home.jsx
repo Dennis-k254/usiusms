@@ -76,11 +76,12 @@ function Home() {
                     <LibraryBooksIcon className="text-[200px]" fontSize="" />
                   </div>
                 </Link>
-
-                <div className="bg-white rounded-lg w-[250px] h-[250px] justify-center items-center flex flex-col text-darkblue shadow-lg opacity-70 hover:opacity-95 ">
-                  <h1 className="font-bold text-[20px]">Profile</h1>
-                  <PersonIcon className="text-[200px]" fontSize="" />
-                </div>
+                <Link to="/profile">
+                  <div className="bg-white rounded-lg w-[250px] h-[250px] justify-center items-center flex flex-col text-darkblue shadow-lg opacity-70 hover:opacity-95 ">
+                    <h1 className="font-bold text-[20px]">Profile</h1>
+                    <PersonIcon className="text-[200px]" fontSize="" />
+                  </div>
+                </Link>
               </div>
             </>
           )}

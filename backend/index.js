@@ -8,6 +8,8 @@ const register = require("./routes/register");
 const scholaship = require("./routes/scholarshipUpdate");
 const addScholarship = require("./routes/addSchorlaship");
 const users = require("./routes/getUsers.js");
+const resetPassword = require("./routes/reset-password");
+const resetPasswordConfirmation = require("./routes/reset-password-confirmation");
 
 const app = express();
 
@@ -20,6 +22,8 @@ app.use("/api/register", register);
 app.use("/api/scholarship", scholaship);
 app.use("/api/addScholarship", addScholarship);
 app.use("/api/users", users);
+app.use("/api/reset-password", resetPassword);
+app.use("/api/reset-password-confirmation", resetPasswordConfirmation);
 
 const port = 8000;
 const uri =

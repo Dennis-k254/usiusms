@@ -68,10 +68,13 @@ const Menu = () => {
           </li>
         </Link>
 
-        <li className="flex flex-row gap-2">
-          <PersonIcon />
-          Profile
-        </li>
+        <Link to="/profile">
+          <li className="flex flex-row gap-2">
+            <PersonIcon />
+            Profile
+          </li>
+        </Link>
+
         <Link to="/login">
           <li className="flex flex-row gap-2" onClick={handleLogout}>
             <LogoutIcon />

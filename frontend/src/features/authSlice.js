@@ -119,6 +119,57 @@ export const userDelete = createAsyncThunk(
   }
 );
 
+export const resetPassword = createAsyncThunk(
+  "auth/resetPassword",
+  async (values, { rejectWithValue, dispatch }) => {
+    try {
+      const response = await dispatch(resetPasswordConfirmation(values));
+      return response.payload;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const resetPasswordConfirmation = createAsyncThunk(
+  "auth/resetPasswordConfirmation",
+  async (values, { rejectWithValue }) => {
+    try {
+      console.log(values);
+      const response = await axios.post(
+        `http://localhost:8000/api/reset-password-confirmation`,
+        {
+          token: values.token,
+          password: values.password,
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.log(error.response.data);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const requestPasswordReset = createAsyncThunk(
+  "auth/requestPasswordReset",
+  async (email, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:8000/api/reset-password`,
+        {
+          email,
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -237,6 +288,54 @@ const authSlice = createSlice({
       return {
         ...state,
         users: action.payload,
+      };
+    });
+    builder.addCase(resetPassword.pending, (state, action) => {
+      return { ...state, resetPasswordStatus: "pending" };
+    });
+    builder.addCase(resetPassword.fulfilled, (state, action) => {
+      if (action.payload) {
+        // Password reset successful
+        return { ...state, resetPasswordStatus: "success" };
+      } else return state;
+    });
+    builder.addCase(resetPassword.rejected, (state, action) => {
+      return {
+        ...state,
+        resetPasswordStatus: "rejected",
+        resetPasswordError: action.payload,
+      };
+    });
+    builder.addCase(requestPasswordReset.pending, (state, action) => {
+      return { ...state, requestPasswordResetStatus: "pending" };
+    });
+    builder.addCase(requestPasswordReset.fulfilled, (state, action) => {
+      if (action.payload) {
+        // Password reset request successful
+        return { ...state, requestPasswordResetStatus: "success" };
+      } else return state;
+    });
+    builder.addCase(requestPasswordReset.rejected, (state, action) => {
+      return {
+        ...state,
+        requestPasswordResetStatus: "rejected",
+        requestPasswordResetError: action.payload,
+      };
+    });
+    builder.addCase(resetPasswordConfirmation.pending, (state, action) => {
+      return { ...state, resetPasswordConfirmationStatus: "pending" };
+    });
+    builder.addCase(resetPasswordConfirmation.fulfilled, (state, action) => {
+      if (action.payload) {
+        // Password reset confirmation successful
+        return { ...state, resetPasswordConfirmationStatus: "success" };
+      } else return state;
+    });
+    builder.addCase(resetPasswordConfirmation.rejected, (state, action) => {
+      return {
+        ...state,
+        resetPasswordConfirmationStatus: "rejected",
+        resetPasswordError: action.payload,
       };
     });
   },

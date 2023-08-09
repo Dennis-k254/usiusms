@@ -10,6 +10,9 @@ import ScholCollection from "./pages/ScholCollection";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MangeUsers from "./pages/ManageUsers";
+import Profile from "./pages/Profile";
+import ReqResPass from "./pages/ReqResPass";
+import ResetPass from "./pages/ResetPass";
 
 function App() {
   return (
@@ -23,6 +26,9 @@ function App() {
         <Route path="/admin" element={<AdminDash />} />
         <Route path="/scholarships" element={<ScholCollection />} />
         <Route path="/users" element={<MangeUsers />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/reqrespass" element={<ReqResPass />} />
+        <Route path="/reset-password-confirmation" element={<ResetPass />} />
       </Routes>
     </div>
   );
