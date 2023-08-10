@@ -7,24 +7,25 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {
   createScholarship,
-  getScholarships,
-  addScholarshipToUser,
   getUserScholarships,
 } from "../features/scholarshipSlice";
 import FolderOpenOutlinedIcon from "@mui/icons-material/FolderOpenOutlined";
-import { toast } from "react-toastify";
+
+import { getAllScholarships } from "../features/scholarshipSlice";
 
 const ScholCollection = () => {
-  const scholarships = useSelector((state) => state.schol.scholarships);
   const userScholarships = useSelector((state) => state.schol.userScholarships);
   const auth = useSelector((state) => state.auth);
+  const allScholarships = useSelector((state) => state.schol.allScholarships);
+  const [gpaRequirement, setGpaReq] = useState("");
 
   const [selectedDate, setSelectedDate] = useState(null);
   const [newScholarship, setNewScholarship] = useState({
-    scholarshipId: "", // Assuming you have a way to obtain the scholarship ID
+    scholarshipName: "",
     status: "Pending", // Assuming you want to set the default status as "Pending"
     applicationDeadline: "",
     category: "",
+    gpaReq: "",
   });
 
   const handleDateChange = (date) => {
@@ -49,29 +50,36 @@ const ScholCollection = () => {
   const [educational, setEducational] = useState(false);
   const [masterCard, setMasterCard] = useState(false);
 
-  const handleApplyButtonClick = () => {
-    dispatch(addScholarshipToUser({
-      userId: auth._id,
-      scholarshipId: newScholarship.scholarshipId,
-      status: newScholarship.status,
-      applicationDeadline: newScholarship.applicationDeadline,
-      category: newScholarship.category,
-    }))
-    .then(() => {
-      setShowForm(false);
-      setNewScholarship({
-        scholarshipId: "",
-        status: "Pending",
-        applicationDeadline: "",
-        category: "",
+  const handleShowForm = () => {
+    setShowForm(true);
+  };
+
+  const handleFormSubmit = () => {
+    dispatch(
+      createScholarship({
+        scholarshipName: newScholarship.scholarshipName,
+        applicationDeadline: newScholarship.applicationDeadline,
+        category: newScholarship.category,
+        gpaReq: newScholarship.gpaReq,
+      })
+    )
+      .then(() => {
+        setShowForm(false);
+        setNewScholarship({
+          scholarshipId: "",
+          status: "Pending",
+          applicationDeadline: "",
+          category: "",
+          gpaReq: "",
+        });
+
+        setSelectedDate(null);
+        dispatch(getAllScholarships()); // Fetch all scholarships
+        dispatch(getUserScholarships({ userId: auth._id }));
+      })
+      .catch((error) => {
+        console.log("Error applying scholarship:", error);
       });
-      setSelectedDate(null);
-      dispatch(getScholarships());
-      dispatch(getUserScholarships({ userId: auth._id }));
-    })
-    .catch((error) => {
-      console.log("Error applying scholarship:", error);
-    });
   };
 
   const handleSelectChange = (event) => {
@@ -84,8 +92,10 @@ const ScholCollection = () => {
     setNewScholarship({
       ...newScholarship,
       scholarshipName: selectedValue,
+      category: "",
     });
   };
+  console.log(newScholarship.scholarshipName);
 
   const handleCategoryChange = (event) => {
     const categoryValue = event.target.value;
@@ -104,9 +114,18 @@ const ScholCollection = () => {
   };
 
   useEffect(() => {
-    dispatch(getUserScholarships({ userId: auth._id }));
+    console.log("all", allScholarships);
     console.log("user", userScholarships);
+    console.log("new", newScholarship);
   }, [dispatch, auth._id]);
+
+  const handleSetGpa = (event) => {
+    const gpaValue = event.target.value;
+    setNewScholarship({
+      ...newScholarship,
+      gpaReq: gpaValue,
+    });
+  };
 
   return (
     <div className="flex flex-row bg-gray">
@@ -127,7 +146,7 @@ const ScholCollection = () => {
               className={`${
                 auth.isAdmin ? "m-8 bg-darkblue text-white w-28" : "hidden"
               }`}
-              onClick={handleApplyButtonClick }
+              onClick={handleShowForm}
             >
               ADD
             </button>
@@ -199,7 +218,17 @@ const ScholCollection = () => {
                     className=" flex flex-col border-2 w-full"
                   />
                 </div>
-               
+
+                <div className="gap-2 flex flex-col">
+                  <h1>GPA Requirement</h1>
+                  <input
+                    type="string"
+                    placeholder="Enter GPA Requirement"
+                    onChange={handleSetGpa}
+                    className="flex flex-col border-2"
+                  />
+                </div>
+
                 <button
                   onClick={handleFormSubmit}
                   className="m-8 bg-darkblue text-white w-28 py-8"
@@ -210,9 +239,10 @@ const ScholCollection = () => {
             ) : auth.isAdmin ? (
               <>
                 {/* For the admin, this shows all scholarships available */}
+
                 <div className="flex flex-row gap-20 flex-wrap items-center justify-center">
-                  {scholarships.map((scholarship) => (
-                    <div key={scholarship.id}>
+                  {allScholarships?.map((scholarship, index) => (
+                    <div key={scholarship.id || index}>
                       <ScholCard scholarship={scholarship} />
                     </div>
                   ))}
@@ -222,9 +252,15 @@ const ScholCollection = () => {
               <>
                 {/* For the user, this shows only the approved and rejected scholarships */}
                 <div className="flex flex-row flex-wrap gap-10 m-4">
-                  {userScholarships.scholarships.map((scholarship) => (
-                    <div key={scholarship._id} className="flex flex-col items-center justify-center bg-gray rounded-lg p-10">
-                      <FolderOpenOutlinedIcon className="text-[100px]" fontSize="" />
+                  {userScholarships?.scholarships.map((scholarship) => (
+                    <div
+                      key={scholarship._id}
+                      className="flex flex-col items-center justify-center bg-gray rounded-lg p-10"
+                    >
+                      <FolderOpenOutlinedIcon
+                        className="text-[100px]"
+                        fontSize=""
+                      />
                       <p>{scholarship.scholarshipName}</p>
                       <p>{scholarship.category}</p>
                       <p>{scholarship.status}</p>
@@ -241,4 +277,3 @@ const ScholCollection = () => {
 };
 
 export default ScholCollection;
-

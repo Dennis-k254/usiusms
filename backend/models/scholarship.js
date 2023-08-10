@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 // DB schema
 const scholarshipSchema = new mongoose.Schema({
   scholarshipName: { type: String, required: true },
-  category: { type: String, required: true },
+  category: { type: String, required: false },
   applicationDeadline: { type: Date, required: false },
   gpaReq: { type: String, required: false },
 });

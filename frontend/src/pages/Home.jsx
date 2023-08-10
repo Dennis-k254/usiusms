@@ -7,13 +7,21 @@ import HeadSec from "../components/HeadSec";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
+import { getScholarships } from "../features/scholarshipSlice";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const auth = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    console.log(auth.isAdmin); // TODO: Remove this line
-  });
+  const navigate = useNavigate();
+
+  const handleMangeUsers = () => {
+    navigate("/users");
+  };
+
+  const handleToProfile = () => {
+    navigate("/profile");
+  };
 
   return (
     <div className="flex flex-row  h-[100vh]">
@@ -39,14 +47,20 @@ function Home() {
                     <LibraryBooksIcon className="text-[200px]" fontSize="" />
                   </div>
                 </Link>
-                <div className="bg-white rounded-lg w-[250px] h-[250px] justify-center items-center flex flex-col text-darkblue shadow-lg opacity-70 hover:opacity-95 ">
+                <div
+                  className="bg-white rounded-lg w-[250px] h-[250px] justify-center items-center flex flex-col text-darkblue shadow-lg opacity-70 hover:opacity-95 "
+                  onClick={handleToProfile}
+                >
+                  {" "}
                   <h1 className="font-bold text-[20px]">Profile</h1>
                   <PersonIcon className="text-[200px]" fontSize="" />
                 </div>
-                <div className="bg-white rounded-lg w-[250px] h-[250px] justify-center items-center flex flex-col text-darkblue shadow-lg opacity-70 hover:opacity-95 ">
-                  <Link to="/users">
-                    <h1 className="font-bold text-[20px]">Manage users</h1>
-                  </Link>
+                <div
+                  className="bg-white rounded-lg w-[250px] h-[250px] justify-center items-center flex flex-col text-darkblue shadow-lg opacity-70 hover:opacity-95 "
+                  onClick={handleMangeUsers}
+                >
+                  <h1 className="font-bold text-[20px]">Manage users</h1>
+
                   <PersonIcon className="text-[200px]" fontSize="" />
                 </div>
               </div>

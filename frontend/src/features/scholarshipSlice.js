@@ -7,14 +7,32 @@ const initialState = {
   userScholarships: JSON.parse(localStorage.getItem("userScholarships")),
   applicationStatus: "",
   error: "",
+  allScholarships: JSON.parse(localStorage.getItem("allscholarships")),
 };
 
 // Fetching all scholarships
 export const getScholarships = createAsyncThunk(
   "schol/getScholarships",
+  async ({ userId }) => {
+    console.log(userId);
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/scholarship/${userId}`
+      );
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log("error fetching data");
+      throw error;
+    }
+  }
+);
+
+export const getAllScholarships = createAsyncThunk(
+  "schol/getAllScholarships",
   async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/scholarship");
+      const response = await axios.get(`http://localhost:8000/api/scholarship`);
       return response.data;
     } catch (error) {
       console.log("error fetching data");
@@ -27,6 +45,7 @@ export const getScholarships = createAsyncThunk(
 export const createScholarship = createAsyncThunk(
   "schol/createScholarship",
   async (values) => {
+    console.log(values);
     try {
       const response = await axios.post(
         "http://localhost:8000/api/scholarship",
@@ -34,11 +53,13 @@ export const createScholarship = createAsyncThunk(
           scholarshipName: values.scholarshipName,
           category: values.category,
           applicationDeadline: values.applicationDeadline,
+          gpaReq: values.gpaReq,
         }
       );
+      toast.success("Scholarship successfully added");
       return response.data;
     } catch (error) {
-      toast.error("error adding scholarship to user", error);
+      toast.error("error adding scholarship to database", error);
       throw error;
     }
   }
@@ -119,14 +140,19 @@ const scholarshipSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getScholarships.fulfilled, (state, action) => {
       state.scholarships = action.payload;
-      console.log("payload", action.payload);
+      console.log("scholarships", action.payload);
       localStorage.setItem("scholarships", JSON.stringify(action.payload));
     });
+    builder.addCase(getAllScholarships.fulfilled, (state, action) => {
+      state.allScholarships = action.payload;
+      console.log("all", action.payload);
+      localStorage.setItem("allscholarships", JSON.stringify(action.payload));
+    });
     builder.addCase(getScholarships.pending, (state, action) => {
-      console.log("pending");
+      console.log("getting pending");
     });
     builder.addCase(getScholarships.rejected, (state, action) => {
-      console.log("error");
+      console.log("getting error");
     });
     builder.addCase(getUserScholarships.fulfilled, (state, action) => {
       state.userScholarships = action.payload;
@@ -148,6 +174,9 @@ const scholarshipSlice = createSlice({
     });
     builder.addCase(addScholarshipToUser.pending, (state, action) => {
       return { ...state, applicationStatus: "pending" };
+    });
+    builder.addCase(getUserScholarships.rejected, (state, action) => {
+      state.error = action.error.message; // Update state with the error message
     });
   },
 });

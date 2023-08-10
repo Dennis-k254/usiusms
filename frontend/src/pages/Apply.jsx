@@ -5,6 +5,8 @@ import Menu from "../components/Menu";
 import ScholCard from "../components/ScholCard";
 import { useSelector, useDispatch } from "react-redux";
 import { updateGpa } from "../features/scholarshipSlice";
+import { getScholarships } from "../features/scholarshipSlice";
+import { compareAsc } from "date-fns"; // Import compareAsc
 
 const Apply = () => {
   const [gpaForm, setGpaForm] = useState(false);
@@ -13,7 +15,21 @@ const Apply = () => {
   const schol = useSelector((state) => state.schol);
   const auth = useSelector((state) => state.auth);
 
+  // Sort scholarships by applicationDeadline in descending order
+  const sortedScholarships = [...scholarships].sort((a, b) =>
+    compareAsc(new Date(b.applicationDeadline), new Date(a.applicationDeadline))
+  );
+
+  const userId = auth._id;
+
   const dispatch = useDispatch();
+
+  console.log("user", userId);
+
+  useEffect(() => {
+    dispatch(getScholarships({ userId }));
+    console.log("scholarships", scholarships);
+  }, []);
 
   const handleGpaUpdate = () => {
     setGpaForm(false);
@@ -40,7 +56,7 @@ const Apply = () => {
         <div className="flex flex-row bg-white mx-5 p-10 items-center justify-center gap-8  rounded-2xl ">
           <div className="flex flex-row gap-20 flex-wrap items-center justify-center ">
             <div className="gap-10 flex flex-row flex-wrap items-center justify-center">
-              {scholarships.map((scholarship, index) => (
+              {sortedScholarships.map((scholarship, index) => (
                 <div key={scholarship.id || index}>
                   <ScholCard scholarship={scholarship} />
                 </div>

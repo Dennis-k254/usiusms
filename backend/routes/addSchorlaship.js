@@ -26,6 +26,13 @@ router.post("/:userId", async (req, res) => {
         scholarshipObj.scholarship.toString() === scholarshipId
     );
 
+    const maxApplications = 3; // Set the maximum number of allowed applications
+    if (user.scholarships.length >= maxApplications) {
+      return res.status(403).json({
+        error: `You have reached the maximum number of scholarship applications (${maxApplications}).`,
+      });
+    }
+
     if (existingScholarship) {
       return res.status(409).json({ error: "Scholarship already applied" });
     }
