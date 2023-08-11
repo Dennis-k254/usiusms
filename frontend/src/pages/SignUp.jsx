@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { login } from "../assets";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,9 +23,6 @@ const SignUp = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(registerUser(user));
-    if (auth.registerStatus == "success") {
-      navigate("/");
-    }
   };
 
   const confirmPass = () => {
@@ -33,6 +30,13 @@ const SignUp = () => {
       user.password === user.confirmPass && user.password.length > 3;
     return isMatching;
   };
+
+  useEffect(() => {
+    if (auth._id) {
+      console.log(auth);
+      navigate("/");
+    }
+  }, [handleSubmit]);
 
   return (
     <div className="flex lg:flex-row flex-col  justify-between items-center h-[100vh]">
