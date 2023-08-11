@@ -58,7 +58,7 @@ const Login = () => {
           <div className="flex flex-row gap-2">
             <input type="checkbox" /> <p>Remember me</p>
           </div>
-          <p>Forgot password ? </p>
+          <Link to="/reqrespass">Forgot password ?</Link>
         </div>
 
         <div className="w-full ">

@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const generatePasswordResetToken = async (user) => {
   try {
     const secretKey = process.env.JWT_SECRET_KEY;
-    const expirationTime = "10h";
+    const expirationTime = "1h";
 
     const token = jwt.sign(
       {

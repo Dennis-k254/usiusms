@@ -4,10 +4,9 @@ import EventRepeatIcon from "@mui/icons-material/EventRepeat";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import PersonIcon from "@mui/icons-material/Person";
 import HeadSec from "../components/HeadSec";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
-import { getScholarships } from "../features/scholarshipSlice";
+
 import { useNavigate } from "react-router-dom";
 
 function Home() {
