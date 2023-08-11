@@ -76,6 +76,7 @@ const ScholCollection = () => {
         setSelectedDate(null);
         dispatch(getAllScholarships()); // Fetch all scholarships
         dispatch(getUserScholarships({ userId: auth._id }));
+        console.log("userSchol", userScholarships);
       })
       .catch((error) => {
         console.log("Error applying scholarship:", error);
@@ -115,6 +116,7 @@ const ScholCollection = () => {
 
   useEffect(() => {
     console.log("all", allScholarships);
+    dispatch(getUserScholarships({ userId: auth._id }));
     console.log("user", userScholarships);
     console.log("new", newScholarship);
   }, [dispatch, auth._id]);

@@ -38,9 +38,14 @@ const Apply = () => {
   };
 
   useEffect(() => {
-    if (schol.error == "Update your gpa to proceed") {
+    if (
+      schol.error == "Update your gpa to proceed" ||
+      schol.scholarships.length == 0
+    ) {
       setGpaForm(true);
     }
+
+    console.log("test", schol);
   }, [schol.error]);
 
   return (
